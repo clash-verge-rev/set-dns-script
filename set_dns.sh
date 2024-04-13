@@ -4,7 +4,11 @@ hardware_port=$(networksetup -listallhardwareports | awk -v dev="$nic" '/Hardwar
 
 original_dns=$(networksetup -getdnsservers $hardware_port)
 
-# 将当前的dns设置保存到一个单独的文件中
-echo $original_dns > original_dns.txt
+if [ ${#original_dns} -gt 15 ]
+then
+    echo "Empty" > original_dns.txt
+else
+    echo $original_dns > original_dns.txt
+fi
 
 networksetup -setdnsservers $hardware_port 223.5.5.5
