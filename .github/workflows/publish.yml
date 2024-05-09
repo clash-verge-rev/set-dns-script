@@ -1,0 +1,26 @@
+name: Publish
+on: workflow_dispatch
+permissions: write-all
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update Tag
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: script
+          name: "Script"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            set_dns.sh
+            unset_dns.sh
